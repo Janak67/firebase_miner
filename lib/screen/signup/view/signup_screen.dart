@@ -1,6 +1,10 @@
 import 'package:firebase_miner/utils/color_list.dart';
+import 'package:firebase_miner/utils/constant.dart';
+import 'package:firebase_miner/utils/helper/fire_helper.dart';
+import 'package:firebase_miner/utils/text_theme.dart';
 import 'package:firebase_miner/utils/widget/textfield_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -10,6 +14,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController txtEmail = TextEditingController();
+  TextEditingController txtPassword = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,17 +28,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Create Account',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                Center(
+                  child: Text(
+                    createTitle,
+                    style: txtTitle,
+                  ),
                 ),
-                const Text('Let’s Create account for enter into FlexUI Website.'),
+                const Text(signupDummy),
                 const SizedBox(height: 10),
-                socialLogin('assets/img/apple.png', 'Continue with Apple'),
+                socialLogin('assets/img/apple.png', socialApple),
                 const SizedBox(height: 10),
-                socialLogin('assets/img/google.png', 'Continue with Google'),
+                InkWell(
+                  onTap: () async {
+                    String sms = await FireHelper.fireHelper.googleSignIn();
+                    Get.snackbar(sms, '');
+                    if (sms == "Success") {
+                      Get.offAllNamed('dash');
+                    }
+                  },
+                  child: socialLogin('assets/img/google.png', socialGoogle),
+                ),
                 const SizedBox(height: 10),
-                socialLogin('assets/img/facebook.png', 'Continue with Facebook'),
+                socialLogin('assets/img/facebook.png', socialFacebook),
                 const SizedBox(height: 25),
                 const Row(
                   children: [
@@ -43,15 +61,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ),
                 const SizedBox(height: 25),
-                buildText('First Name'),
-                CustomTextField(label: 'Ex: Eliza Maguire'),
+                Text(name, style: txt18),
+                CustomTextField(label: nameLabel),
                 const SizedBox(height: 15),
-                buildText('Your Email'),
-                CustomTextField(label: 'Ex: Maguire@FlexUI.com'),
+                Text(yourEmail, style: txt18),
+                CustomTextField(label: emailLabel, controller: txtEmail),
                 const SizedBox(height: 15),
-                buildText('Password'),
+                Text(password, style: txt18),
                 CustomTextField(
-                    label: 'Create a password', icon: Icons.remove_red_eye),
+                    label: newPassword,
+                    icon: Icons.remove_red_eye,
+                    controller: txtPassword),
                 const SizedBox(height: 80),
                 SizedBox(
                   width: double.infinity,
@@ -59,11 +79,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(green)),
-                    onPressed: () {},
-                    child: Text(
-                      'Create account ->',
-                      style: TextStyle(color: white, fontSize: 16),
-                    ),
+                    onPressed: () async {
+                      String message = await FireHelper.fireHelper.signUp(
+                          email: txtEmail.text, password: txtPassword.text);
+                      Get.snackbar(message, '');
+                    },
+                    child: Text(registrationButton, style: txt16),
                   ),
                 ),
               ],
@@ -71,13 +92,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Text buildText(String text) {
-    return Text(
-      text,
-      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
     );
   }
 

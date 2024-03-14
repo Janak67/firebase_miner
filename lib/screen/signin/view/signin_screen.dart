@@ -1,5 +1,7 @@
 import 'package:firebase_miner/utils/color_list.dart';
 import 'package:firebase_miner/utils/constant.dart';
+import 'package:firebase_miner/utils/helper/fire_helper.dart';
+import 'package:firebase_miner/utils/text_theme.dart';
 import 'package:firebase_miner/utils/widget/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +14,9 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  TextEditingController txtEmail = TextEditingController();
+  TextEditingController txtPassword = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -23,29 +28,22 @@ class _SignInScreenState extends State<SignInScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(child: Image.asset('assets/img/login.png', height: 250)),
-                const Text(
-                  welcomeTitle,
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                Center(
+                  child: Text(welcomeTitle, style: txtTitle),
                 ),
                 const SizedBox(height: 10),
                 const Text(enterEmail),
                 const SizedBox(height: 20),
-                const Text(
-                  'Email',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                CustomTextField(label: emailLabel),
+                Text(email, style: txt18),
+                CustomTextField(label: emailLabel, controller: txtEmail),
                 const SizedBox(height: 10),
-                const Text(
-                  'Password',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                CustomTextField(label: password, icon: Icons.remove_red_eye),
+                Text(password, style: txt18),
+                CustomTextField(
+                    label: passwordLabel,
+                    icon: Icons.remove_red_eye,
+                    controller: txtPassword),
                 const SizedBox(height: 60),
-                Text(
-                  'Forget Password ??',
-                  style: TextStyle(color: green),
-                ),
+                Text(forgot, style: txtGreen),
                 const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
@@ -53,28 +51,30 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(green)),
-                    onPressed: () {},
-                    child: Text(
-                      'Login ->',
-                      style: TextStyle(color: white, fontSize: 16),
-                    ),
+                    onPressed: () async {
+                      String message = await FireHelper.fireHelper.signIn(
+                          email: txtEmail.text, password: txtPassword.text);
+                      Get.snackbar(message, '');
+                      if (message == "Success") {
+                        FireHelper.fireHelper.checkUser();
+                        Get.offAllNamed('profile');
+                      }
+                    },
+                    child: Text(loginButton, style: txt16),
                   ),
                 ),
                 const SizedBox(height: 60),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Don`t Have an Account?'),
+                    const Text(dummy),
                     ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(green)),
                       onPressed: () {
                         Get.toNamed('signUp');
                       },
-                      child: Text(
-                        'Create Account',
-                        style: TextStyle(color: white, fontSize: 16),
-                      ),
+                      child: Text(createButton, style: txt16),
                     ),
                   ],
                 ),

@@ -12,7 +12,20 @@
           "package_name": "com.example.firebase_miner"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "914133702565-5c62blse2sqr9uvhqlcvbrr1h1gr1dm6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.firebase_miner",
+            "certificate_hash": "2b87880d3e6af157b9e67f679d674e71241fa4d6"
+          }
+        },
+        {
+          "client_id": "914133702565-4kc5kek57n7ij4vivps9r49q7sk6aina.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAG8rH0OzBQnrnWUQtUAMMgti8s8i_SQX4"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914133702565-4kc5kek57n7ij4vivps9r49q7sk6aina.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "914133702565-i6qf51c686fntbkv14t635dg8hhoegp8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firebaseMiner"
+              }
+            }
+          ]
         }
       }
     }

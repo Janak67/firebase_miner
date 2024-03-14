@@ -15,6 +15,7 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true),
       routes: screen_routes,
+      // initialRoute: 'dash',
     ),
   );
 }
