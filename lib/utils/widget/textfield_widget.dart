@@ -12,13 +12,16 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
-        labelStyle: TextStyle(color: color ?? grey),
-        suffixIcon: icon != null ? Icon(icon) : null,
-        labelText: label ?? "",
+    return SizedBox(
+      height: 60,
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+          labelStyle: TextStyle(color: color ?? grey),
+          suffixIcon: icon != null ? Icon(icon) : null,
+          labelText: label ?? "",
+        ),
       ),
     );
   }

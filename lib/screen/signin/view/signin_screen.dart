@@ -2,6 +2,7 @@ import 'package:firebase_miner/utils/color_list.dart';
 import 'package:firebase_miner/utils/constant.dart';
 import 'package:firebase_miner/utils/widget/textfield_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -67,7 +68,9 @@ class _SignInScreenState extends State<SignInScreen> {
                     ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(green)),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed('signUp');
+                      },
                       child: Text(
                         'Create Account',
                         style: TextStyle(color: white, fontSize: 16),

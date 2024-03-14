@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     // bool isLogin = FireHelper.fireHelper.checkUser();
     Future.delayed(
-      const Duration(seconds: 4),
+      const Duration(seconds: 3),
           () {
         Get.offAllNamed('signIn');
       },
