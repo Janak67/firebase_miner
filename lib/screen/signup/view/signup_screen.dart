@@ -95,20 +95,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  SizedBox socialLogin(String img, String text) {
-    return SizedBox(
+  Container socialLogin(String img, String text) {
+    return Container(
       height: 50,
       width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () {},
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(img, height: 25, width: 25),
-            const SizedBox(width: 10),
-            Text(text),
-          ],
-        ),
+      color: const Color(0xffF8F8F8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(img, height: 25, width: 25),
+          const SizedBox(width: 10),
+          Text(text),
+        ],
       ),
     );
   }
