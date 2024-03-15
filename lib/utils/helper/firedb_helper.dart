@@ -7,6 +7,7 @@ class FireDbHelper {
 
   FireDbHelper._();
 
+  ProfileModel myProfileData = ProfileModel();
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   Future<void> addProfile(ProfileModel pm) async {
@@ -29,5 +30,24 @@ class FireDbHelper {
         .collection("User")
         .doc(FireHelper.fireHelper.user!.uid)
         .snapshots();
+  }
+
+  Future<void> myProfile() async {
+    DocumentSnapshot ds = await firebaseFirestore
+        .collection("User")
+        .doc(FireHelper.fireHelper.user!.uid)
+        .get();
+    Map? data = ds.data() as Map?;
+    if (data != null) {
+      myProfileData = ProfileModel(
+        uid: data['uid'],
+        name: data['name'],
+        address: data['address'],
+        mobile: data['mobile'],
+        email: data['email'],
+        bio: data['bio'],
+        image: data['image'],
+      );
+    }
   }
 }
