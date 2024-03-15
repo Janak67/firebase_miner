@@ -17,10 +17,12 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
           labelStyle: TextStyle(color: color ?? grey),
           suffixIcon: icon != null ? Icon(icon) : null,
           labelText: label ?? "",
+          // fillColor: Colors.grey.shade300,
+          // filled: true,
         ),
       ),
     );

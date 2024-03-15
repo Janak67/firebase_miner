@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_miner/screen/setting/controller/setting_controller.dart';
 import 'package:firebase_miner/utils/color_list.dart';
 import 'package:firebase_miner/utils/constant.dart';
 import 'package:firebase_miner/utils/helper/fire_helper.dart';
 import 'package:firebase_miner/utils/helper/firedb_helper.dart';
+import 'package:firebase_miner/utils/helper/share_helper.dart';
 import 'package:firebase_miner/utils/text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,8 @@ class _SettingScreenState extends State<SettingScreen>
     print(state.name);
   }
 
+  SettingController controller = Get.put(SettingController());
+
   @override
   void initState() {
     super.initState();
@@ -40,8 +44,7 @@ class _SettingScreenState extends State<SettingScreen>
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
         child: AppBar(
-            title: Text('Settings', style: TextStyle(color: white)),
-            backgroundColor: green),
+            title: Text('Settings', style: txtWhite), backgroundColor: green),
       ),
       body: Column(
         children: [
@@ -75,6 +78,7 @@ class _SettingScreenState extends State<SettingScreen>
                             ),
                       const SizedBox(height: 20),
                       Column(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -95,6 +99,21 @@ class _SettingScreenState extends State<SettingScreen>
               },
               child: buildListTile(
                   CupertinoIcons.profile_circled, 'Edit Profile')),
+          ListTile(
+            leading: Icon(Icons.light_mode_outlined),
+            title: Text('Theme', style: txt20),
+            trailing: Obx(
+              () => Switch(
+                value: controller.isLight.value,
+                onChanged: (value) {
+                  ShareHelper shr = ShareHelper();
+                  shr.setTheme(value);
+                  controller.changeTheme();
+                  Get.back();
+                },
+              ),
+            ),
+          ),
           buildListTile(Icons.person_off_outlined, 'Blocked users'),
           buildListTile(Icons.delete_outline, 'Delete account'),
           buildListTile(Icons.privacy_tip_outlined, 'Privacy policy'),

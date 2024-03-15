@@ -1,8 +1,15 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_miner/screen/profile/controller/profile_controller.dart';
 import 'package:firebase_miner/screen/profile/model/profile_model.dart';
+import 'package:firebase_miner/utils/color_list.dart';
+import 'package:firebase_miner/utils/constant.dart';
 import 'package:firebase_miner/utils/helper/fire_helper.dart';
 import 'package:firebase_miner/utils/helper/firedb_helper.dart';
+import 'package:firebase_miner/utils/helper/storage.dart';
+import 'package:firebase_miner/utils/text_theme.dart';
+import 'package:firebase_miner/utils/widget/image_bottom_sheet.dart';
 import 'package:firebase_miner/utils/widget/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,8 +35,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color: white),
+          backgroundColor: green,
           centerTitle: true,
-          title: const Text('Profile'),
+          title: Text('Profile', style: txtWhite),
         ),
         body: StreamBuilder(
           stream: FireDbHelper.fireDbHelper.getProfileData(),
@@ -51,30 +60,93 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomTextField(label: 'Name', controller: txtName),
-                      CustomTextField(label: 'Mobile', controller: txtMobile),
-                      CustomTextField(label: 'Email', controller: txtEmail),
-                      CustomTextField(label: 'Bio', controller: txtBio),
-                      CustomTextField(label: 'Address', controller: txtAddress),
-                      const SizedBox(height: 15),
-                      ElevatedButton(
-                        onPressed: () {
-                          String? path;
-                          if (controller.path.value != null) {}
-                          ProfileModel p1 = ProfileModel(
-                            uid: FireHelper.fireHelper.user!.uid,
-                            name: txtName.text,
-                            mobile: txtMobile.text,
-                            bio: txtBio.text,
-                            email: txtEmail.text,
-                            address: txtAddress.text,
-                            image: controller.path.value != null ? path : image,
-                          );
-                          FireDbHelper.fireDbHelper.addProfile(p1);
-                          Get.offAllNamed('dash');
-                        },
-                        child: const Text('Save'),
+                      Obx(
+                        () => Center(
+                          child: InkWell(
+                            onTap: () {
+                              showBottom(context);
+                            },
+                            child: controller.path.value == null &&
+                                    image == null
+                                ? const CircleAvatar(
+                                    radius: 60,
+                                    child: Icon(Icons.add_a_photo_outlined,
+                                        size: 40),
+                                  )
+                                : controller.path.value != null
+                                    ? CircleAvatar(
+                                        radius: 60,
+                                        foregroundImage: FileImage(
+                                            File("${controller.path.value}")),
+                                        child: const Icon(
+                                            Icons.add_a_photo_outlined,
+                                            size: 40),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 60,
+                                        foregroundImage: NetworkImage(image!),
+                                        child: const Icon(
+                                            Icons.add_a_photo_outlined,
+                                            size: 40),
+                                      ),
+                          ),
+                        ),
+                      ),
+                      Text(pName, style: txt18),
+                      buildSizedBox(),
+                      CustomTextField(
+                          label: 'Name', controller: txtName, color: green),
+                      sizedBox(),
+                      Text(pMobile, style: txt18),
+                      buildSizedBox(),
+                      CustomTextField(
+                          label: 'Mobile', controller: txtMobile, color: green),
+                      sizedBox(),
+                      Text(pEmail, style: txt18),
+                      buildSizedBox(),
+                      CustomTextField(
+                          label: 'Email', controller: txtEmail, color: green),
+                      sizedBox(),
+                      Text(pBio, style: txt18),
+                      buildSizedBox(),
+                      CustomTextField(
+                          label: 'Bio', controller: txtBio, color: green),
+                      sizedBox(),
+                      Text(pAddress, style: txt18),
+                      buildSizedBox(),
+                      CustomTextField(
+                          label: 'Address',
+                          controller: txtAddress,
+                          color: green),
+                      buildSizedBox(),
+                      Center(
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(green)),
+                          onPressed: () async {
+                            String? path;
+                            if (controller.path.value != null) {
+                              path = await FireStorage.fireStorage
+                                  .uploadProfile(controller.path.value!);
+                            }
+                            ProfileModel p1 = ProfileModel(
+                              uid: FireHelper.fireHelper.user!.uid,
+                              name: txtName.text,
+                              mobile: txtMobile.text,
+                              bio: txtBio.text,
+                              email: txtEmail.text,
+                              address: txtAddress.text,
+                              image:
+                                  controller.path.value != null ? path : image,
+                            );
+                            FireDbHelper.fireDbHelper.addProfile(p1);
+                            Get.offAllNamed('dash');
+                          },
+                          child: Text('Save', style: txt16),
+                        ),
                       )
                     ],
                   ),
@@ -87,4 +159,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+  SizedBox sizedBox() => const SizedBox(height: 10);
+
+  SizedBox buildSizedBox() => const SizedBox(height: 15);
 }
