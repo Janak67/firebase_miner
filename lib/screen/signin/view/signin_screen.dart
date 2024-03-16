@@ -67,7 +67,12 @@ class _SignInScreenState extends State<SignInScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(dummy),
+                    TextButton(
+                        onPressed: () {
+                          FireHelper.fireHelper.loginGuest();
+                          Get.offAllNamed('profile');
+                        },
+                        child: const Text(dummy)),
                     ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(green)),

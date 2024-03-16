@@ -110,4 +110,8 @@ class FireDbHelper {
         .doc(msgID)
         .delete();
   }
+
+  Future<void> deleteUserDetail(String uid) async {
+    await firebaseFirestore.collection("User").doc(uid).delete();
+  }
 }

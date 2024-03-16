@@ -62,12 +62,21 @@ class _ContactScreenState extends State<ContactScreen> {
                       : CircleAvatar(
                           radius: 30,
                           child: Text(
-                            contactData[index].name!.substring(0, 1),
+                            contactData[index]
+                                .name!
+                                .toUpperCase()
+                                .substring(0, 1),
                             style: TextStyle(color: black),
                           ),
                         ),
-                  title: Text('${contactData[index].name}',style: txt18,),
-                  subtitle: Text('${contactData[index].mobile}',style: txt18,),
+                  title: Text(
+                    '${contactData[index].name}',
+                    style: txt18,
+                  ),
+                  subtitle: Text(
+                    '${contactData[index].mobile}',
+                    style: txt18,
+                  ),
                 );
               },
             );

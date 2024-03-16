@@ -58,4 +58,23 @@ class FireHelper {
       return e.toString();
     }
   }
+
+  Future<void> deleteAccount() async {
+    await user?.delete();
+  }
+
+  Future<void> loginGuest() async {
+    try {
+      await FirebaseAuth.instance.signInAnonymously();
+      print("Signed in with temporary account.");
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "operation-not-allowed":
+          print("Anonymous auth hasn't been enabled for this project.");
+          break;
+        default:
+          print("Unknown error.");
+      }
+    }
+  }
 }

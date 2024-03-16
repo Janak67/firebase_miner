@@ -143,6 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   controller.path.value != null ? path : image,
                             );
                             FireDbHelper.fireDbHelper.addProfile(p1);
+                            controller.path.value = null;
                             Get.offAllNamed('dash');
                           },
                           child: Text('Save', style: txt16),

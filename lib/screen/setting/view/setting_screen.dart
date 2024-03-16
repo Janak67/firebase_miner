@@ -55,42 +55,34 @@ class _SettingScreenState extends State<SettingScreen>
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: grey)),
             padding: const EdgeInsets.all(10),
-            child: StreamBuilder(
-              stream: FireDbHelper.fireDbHelper.getProfileData(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                } else if (snapshot.hasData) {
-                  DocumentSnapshot ds = snapshot.data!;
-                  Map m1 = ds.data() as Map;
-                  return Row(
-                    children: [
-                      m1['image'] == null
-                          ? CircleAvatar(
-                              radius: 50,
-                              child: Text('${m1['name']}'
-                                  .toUpperCase()
-                                  .substring(0, 1)),
-                            )
-                          : CircleAvatar(
-                              radius: 50,
-                              backgroundImage: NetworkImage('${m1['image']}'),
-                            ),
-                      const SizedBox(height: 20),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${m1['name']}', style: txtHeading20),
-                          Text('${m1['mobile']}', style: txtMedium14),
-                        ],
+            child: Row(
+              children: [
+                FireDbHelper.fireDbHelper.myProfileData.image == null
+                    ? CircleAvatar(
+                        radius: 50,
+                        child: Text(
+                            '${FireDbHelper.fireDbHelper.myProfileData.name}'
+                                .toUpperCase()
+                                .substring(0, 1)),
                       )
-                    ],
-                  );
-                }
-                return const Center(child: CircularProgressIndicator());
-              },
+                    : CircleAvatar(
+                        radius: 50,
+                        backgroundImage: NetworkImage(
+                            '${FireDbHelper.fireDbHelper.myProfileData.image}'),
+                      ),
+                const SizedBox(height: 20),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('${FireDbHelper.fireDbHelper.myProfileData.name}',
+                        style: txtHeading20),
+                    Text('${FireDbHelper.fireDbHelper.myProfileData.mobile}',
+                        style: txtMedium14),
+                  ],
+                )
+              ],
             ),
           ),
           InkWell(
@@ -100,7 +92,7 @@ class _SettingScreenState extends State<SettingScreen>
               child: buildListTile(
                   CupertinoIcons.profile_circled, 'Edit Profile')),
           ListTile(
-            leading: Icon(Icons.light_mode_outlined),
+            leading: const Icon(Icons.light_mode_outlined),
             title: Text('Theme', style: txt20),
             trailing: Obx(
               () => Switch(
@@ -115,7 +107,14 @@ class _SettingScreenState extends State<SettingScreen>
             ),
           ),
           buildListTile(Icons.person_off_outlined, 'Blocked users'),
-          buildListTile(Icons.delete_outline, 'Delete account'),
+          InkWell(
+              onTap: () async {
+                await FireDbHelper.fireDbHelper
+                    .deleteUserDetail(FireHelper.fireHelper.user!.uid);
+                await FireHelper.fireHelper.deleteAccount();
+                Get.offAllNamed('signIn');
+              },
+              child: buildListTile(Icons.delete_outline, 'Delete account')),
           buildListTile(Icons.privacy_tip_outlined, 'Privacy policy'),
           buildListTile(
               Icons.playlist_add_check_circle_outlined, 'Terms & condition'),

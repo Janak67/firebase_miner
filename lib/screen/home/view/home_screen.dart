@@ -53,9 +53,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               for (var x in qsList) {
                 List mainList = [];
                 Map data = x.data() as Map;
-                data.entries.forEach((e) {
+                for (var e in data.entries) {
                   mainList.add(e.value);
-                });
+                }
                 if (mainList[0].contains(FireHelper.fireHelper.user!.uid)) {
                   ProfileModel p1 = ProfileModel(
                       name: mainList[1][0],
