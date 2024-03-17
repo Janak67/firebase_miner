@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     bool isLogin = FireHelper.fireHelper.checkUser();
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 5),
       () {
         Get.offAllNamed(status == false || status == null
             ? 'intro'
@@ -41,7 +41,6 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: black,
         body: Center(
           child: Lottie.asset(
             'assets/json/Animation.json',

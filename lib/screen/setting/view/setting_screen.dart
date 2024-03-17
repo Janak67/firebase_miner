@@ -46,85 +46,112 @@ class _SettingScreenState extends State<SettingScreen>
         child: AppBar(
             title: Text('Settings', style: txtWhite), backgroundColor: green),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Container(
-            margin: const EdgeInsets.all(10),
-            height: 100,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: grey)),
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              children: [
-                FireDbHelper.fireDbHelper.myProfileData.image == null
-                    ? CircleAvatar(
-                        radius: 50,
-                        child: Text(
-                            '${FireDbHelper.fireDbHelper.myProfileData.name}'
-                                .toUpperCase()
-                                .substring(0, 1)),
-                      )
-                    : CircleAvatar(
-                        radius: 50,
-                        backgroundImage: NetworkImage(
-                            '${FireDbHelper.fireDbHelper.myProfileData.image}'),
-                      ),
-                const SizedBox(height: 20),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          Obx(
+            () => controller.isLight.value == false
+                ? Image.asset(
+                    'assets/img/bgDark.jpg',
+                    height: MediaQuery.sizeOf(context).height,
+                    width: MediaQuery.sizeOf(context).width,
+                    fit: BoxFit.cover,
+                    opacity: const AlwaysStoppedAnimation(0.5),
+                  )
+                : Image.asset(
+                    'assets/img/bgLight.jpg',
+                    height: MediaQuery.sizeOf(context).height,
+                    width: MediaQuery.sizeOf(context).width,
+                    fit: BoxFit.cover,
+                  ),
+          ),
+          Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.all(10),
+                height: 100,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: grey)),
+                padding: const EdgeInsets.all(10),
+                child: Row(
                   children: [
-                    Text('${FireDbHelper.fireDbHelper.myProfileData.name}',
-                        style: txtHeading20),
-                    Text('${FireDbHelper.fireDbHelper.myProfileData.mobile}',
-                        style: txtMedium14),
+                    FireDbHelper.fireDbHelper.myProfileData.image == null
+                        ? CircleAvatar(
+                            radius: 50,
+                            child: Text(
+                                '${FireDbHelper.fireDbHelper.myProfileData.name}'
+                                    .toUpperCase()
+                                    .substring(0, 1)),
+                          )
+                        : CircleAvatar(
+                            radius: 50,
+                            backgroundImage: NetworkImage(
+                                '${FireDbHelper.fireDbHelper.myProfileData.image}'),
+                          ),
+                    const SizedBox(height: 20),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${FireDbHelper.fireDbHelper.myProfileData.name}',
+                            style: txtHeading20),
+                        Text(
+                            '${FireDbHelper.fireDbHelper.myProfileData.mobile}',
+                            style: txtMedium14),
+                      ],
+                    )
                   ],
-                )
-              ],
-            ),
-          ),
-          InkWell(
-              onTap: () {
-                Get.toNamed('profile');
-              },
-              child: buildListTile(
-                  CupertinoIcons.profile_circled, 'Edit Profile')),
-          ListTile(
-            leading: const Icon(Icons.light_mode_outlined),
-            title: Text('Theme', style: txt20),
-            trailing: Obx(
-              () => Switch(
-                value: controller.isLight.value,
-                onChanged: (value) {
-                  ShareHelper shr = ShareHelper();
-                  shr.setTheme(value);
-                  controller.changeTheme();
-                  Get.back();
-                },
+                ),
               ),
-            ),
+              InkWell(
+                  onTap: () {
+                    Get.toNamed('profile');
+                  },
+                  child: buildListTile(
+                      CupertinoIcons.profile_circled, 'Edit Profile')),
+              ListTile(
+                leading: Obx(
+                  () => controller.isLight.value == false
+                      ? const Icon(Icons.dark_mode_outlined)
+                      : const Icon(Icons.light_mode_outlined),
+                ),
+                title: Text('Theme', style: txt20),
+                trailing: Obx(
+                  () => Switch(
+                    value: controller.isLight.value,
+                    onChanged: (value) {
+                      ShareHelper shr = ShareHelper();
+                      shr.setTheme(value);
+                      controller.changeTheme();
+                      Get.back();
+                    },
+                  ),
+                ),
+              ),
+              buildListTile(Icons.person_off_outlined, 'Blocked users'),
+              InkWell(
+                  onTap: () async {
+                    await FireDbHelper.fireDbHelper
+                        .deleteUserDetail(FireHelper.fireHelper.user!.uid);
+                    await FireHelper.fireHelper.deleteAccount();
+                    Get.offAllNamed('signIn');
+                  },
+                  child: buildListTile(Icons.delete_outline, 'Delete account')),
+              buildListTile(Icons.privacy_tip_outlined, 'Privacy policy'),
+              buildListTile(Icons.playlist_add_check_circle_outlined,
+                  'Terms & condition'),
+              InkWell(
+                  onTap: () async {
+                    await FireHelper.fireHelper.logOut();
+                    Get.snackbar(logout, 'Success');
+                    Get.offAllNamed('signIn');
+                  },
+                  child: buildListTile(Icons.logout, 'Logout')),
+              buildListTile(Icons.help_outline, 'Help'),
+              buildListTile(Icons.group_outlined, 'Invite a friend')
+            ],
           ),
-          buildListTile(Icons.person_off_outlined, 'Blocked users'),
-          InkWell(
-              onTap: () async {
-                await FireDbHelper.fireDbHelper
-                    .deleteUserDetail(FireHelper.fireHelper.user!.uid);
-                await FireHelper.fireHelper.deleteAccount();
-                Get.offAllNamed('signIn');
-              },
-              child: buildListTile(Icons.delete_outline, 'Delete account')),
-          buildListTile(Icons.privacy_tip_outlined, 'Privacy policy'),
-          buildListTile(
-              Icons.playlist_add_check_circle_outlined, 'Terms & condition'),
-          InkWell(
-              onTap: () async {
-                await FireHelper.fireHelper.logOut();
-                Get.snackbar(logout, 'Success');
-                Get.offAllNamed('signIn');
-              },
-              child: buildListTile(Icons.logout, 'Logout')),
         ],
       ),
     );

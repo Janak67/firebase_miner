@@ -1,32 +1,21 @@
+import 'package:firebase_miner/utils/color_list.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData lightTheme = ThemeData(
-    // useMaterial3: true,
-    // appBarTheme: AppBarTheme(
-    //   iconTheme: const IconThemeData(color: Colors.black),
-    //   backgroundColor: Colors.white12,
-    //   titleTextStyle: GoogleFonts.itim(color: Colors.black, fontSize: 25),
-    // ),
-    // brightness: Brightness.light,
-    // textTheme: TextTheme(
-    //   titleLarge: GoogleFonts.comicNeue(
-    //       fontWeight: FontWeight.bold, fontSize: 21, color: Colors.black),
-    //   titleMedium: GoogleFonts.comicNeue(fontSize: 15, color: Colors.black),
-    // ),
-    );
+  appBarTheme: AppBarTheme(
+    backgroundColor: Colors.white12,
+    titleTextStyle: GoogleFonts.itim(color: black),
+  ),
+  brightness: Brightness.light,
+  iconTheme: IconThemeData(color: black),
+);
 
 ThemeData darkTheme = ThemeData(
-    // useMaterial3: true,
-    // appBarTheme: AppBarTheme(
-    //   iconTheme: const IconThemeData(color: Colors.white),
-    //   backgroundColor: Colors.black,
-    //   titleTextStyle: GoogleFonts.itim(color: Colors.white, fontSize: 25),
-    // ),
-    // brightness: Brightness.dark,
-    // textTheme: TextTheme(
-    //   titleLarge: GoogleFonts.comicNeue(
-    //       fontWeight: FontWeight.bold, fontSize: 21, color: Colors.black),
-    //   titleMedium: GoogleFonts.comicNeue(fontSize: 15, color: Colors.black),
-    // ),
-    );
+  appBarTheme: AppBarTheme(
+    backgroundColor: black,
+    titleTextStyle: GoogleFonts.itim(color: white),
+  ),
+  brightness: Brightness.dark,
+  iconTheme: IconThemeData(color: white),
+);

@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_miner/screen/chat/model/chat_model.dart';
 import 'package:firebase_miner/screen/profile/model/profile_model.dart';
+import 'package:firebase_miner/screen/setting/controller/setting_controller.dart';
 import 'package:firebase_miner/utils/color_list.dart';
 import 'package:firebase_miner/utils/helper/fire_helper.dart';
 import 'package:firebase_miner/utils/helper/firedb_helper.dart';
 import 'package:firebase_miner/utils/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
@@ -18,6 +22,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   TextEditingController txtMsg = TextEditingController();
   ProfileModel profileModel = Get.arguments;
+  SettingController controller = Get.put(SettingController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +34,21 @@ class _ChatScreenState extends State<ChatScreen> {
             title: Text(profileModel.name!, style: txtWhite),
             backgroundColor: green,
             actions: [
-              Icon(Icons.video_call, color: white),
+              Icon(Icons.video_call,
+                  color: controller.isLight.value == false ? black : white,
+                  size: 27),
               const SizedBox(width: 5),
-              IconButton(onPressed: () async {
-                Uri uri = Uri.parse("tel: +91 ${profileModel.mobile}");
-                await launchUrl(uri);
-              }, icon: Icon(Icons.call,color: white)),
-              Icon(Icons.more_vert, color: white),
+              IconButton(
+                  onPressed: () async {
+                    Uri uri = Uri.parse("tel: +91 ${profileModel.mobile}");
+                    await launchUrl(uri);
+                  },
+                  icon: Icon(Icons.call,
+                      color:
+                          controller.isLight.value == false ? black : white)),
+              Icon(Icons.more_vert,
+                  color: controller.isLight.value == false ? black : white,
+                  size: 25),
               const SizedBox(width: 10),
             ],
             leading: profileModel.image == null
@@ -54,6 +67,22 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         body: Stack(
           children: [
+            Obx(
+              () => controller.isLight.value == false
+                  ? Image.asset(
+                      'assets/img/bgDark.jpg',
+                      height: MediaQuery.sizeOf(context).height,
+                      width: MediaQuery.sizeOf(context).width,
+                      fit: BoxFit.cover,
+                      opacity: const AlwaysStoppedAnimation(0.5),
+                    )
+                  : Image.asset(
+                      'assets/img/bgLight.jpg',
+                      height: MediaQuery.sizeOf(context).height,
+                      width: MediaQuery.sizeOf(context).width,
+                      fit: BoxFit.cover,
+                    ),
+            ),
             profileModel.docId == null
                 ? Container()
                 : StreamBuilder(
@@ -118,7 +147,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                     margin: const EdgeInsets.only(top: 10),
                                     padding: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
-                                      color: cyan,
+                                      color: controller.isLight.value == false
+                                          ? Colors.grey.shade900
+                                          : cyan,
                                       borderRadius: BorderRadius.only(
                                         topLeft: const Radius.circular(10),
                                         topRight: const Radius.circular(10),
@@ -146,7 +177,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                       children: [
                                         Text('${messageList[index].msg}',
                                             style: txt18),
-                                        Text('${messageList[index].name}'),
+                                        Text('${messageList[index].name}',
+                                            style: GoogleFonts.comicNeue()),
                                       ],
                                     ),
                                   ),
@@ -165,7 +197,6 @@ class _ChatScreenState extends State<ChatScreen> {
                 padding: const EdgeInsets.all(10),
                 height: 65,
                 margin: const EdgeInsets.all(5),
-                color: white,
                 child: Row(
                   children: [
                     Expanded(
@@ -174,8 +205,15 @@ class _ChatScreenState extends State<ChatScreen> {
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
                           hintText: 'Message',
-                          prefixIcon: const Icon(Icons.mood, size: 25),
-                          suffixIcon: const Icon(Icons.camera_alt, size: 25),
+                          prefixIcon: Icon(Icons.mood, size: 25, color: black),
+                          suffixIcon: InkWell(
+                              onTap: () async {
+                                ImagePicker picker = ImagePicker();
+                                await picker.pickImage(
+                                    source: ImageSource.camera);
+                              },
+                              child: Icon(Icons.camera_alt,
+                                  size: 25, color: black)),
                           filled: true,
                           fillColor: white,
                           border: OutlineInputBorder(
