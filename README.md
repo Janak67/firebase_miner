@@ -17,7 +17,6 @@ samples, guidance on mobile development, and a full API reference.
 
 APK :
 
-
 <img src="https://github.com/HarshilMoradiya1244/weather_project/assets/142592789/f41e8f8f-04d7-44cd-8ab1-d9adb15028f5" height ="200" width="200">
 
 Screenshots : 
