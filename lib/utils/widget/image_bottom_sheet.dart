@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 void showBottom(BuildContext context) {
   ProfileController controller = Get.put(ProfileController());
+  String? image;
   Size size = MediaQuery.of(context).size;
   double h = size.height;
   double w = size.width;
@@ -75,7 +76,14 @@ void showBottom(BuildContext context) {
                   children: [
                     IconButton(
                         onPressed: () {
-
+                          // String? path;
+                          // ProfileModel p1 = ProfileModel(
+                          //   uid: FireHelper.fireHelper.user!.uid,
+                          //   image: controller.path.value != null ? path : image,
+                          // );
+                          // FireDbHelper.fireDbHelper.addProfile(p1);
+                          // controller.path.value = null;
+                          // Get.offAllNamed('dash');
                         },
                         icon: Icon(Icons.delete_outline,
                             size: w * 0.09, color: black)),
