@@ -135,6 +135,7 @@ class _SettingScreenState extends State<SettingScreen>
                     await FireDbHelper.fireDbHelper
                         .deleteUserDetail(FireHelper.fireHelper.user!.uid);
                     await FireHelper.fireHelper.deleteAccount();
+                    Get.snackbar('Account has been Deleted', 'Success');
                     Get.offAllNamed('signIn');
                   },
                   child: buildListTile(Icons.delete_outline, 'Delete account')),
