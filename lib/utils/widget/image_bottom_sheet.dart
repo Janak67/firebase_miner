@@ -37,7 +37,7 @@ void showBottom(BuildContext context) {
                       onPressed: () async {
                         ImagePicker picker = ImagePicker();
                         XFile? img =
-                        await picker.pickImage(source: ImageSource.camera);
+                            await picker.pickImage(source: ImageSource.camera);
                         controller.path.value = img?.path;
                         Get.back();
                       },
@@ -47,7 +47,7 @@ void showBottom(BuildContext context) {
                     Text(
                       'Camera',
                       style:
-                      TextStyle(color: black, fontWeight: FontWeight.bold),
+                          TextStyle(color: black, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -57,7 +57,7 @@ void showBottom(BuildContext context) {
                       onPressed: () async {
                         ImagePicker picker = ImagePicker();
                         XFile? img1 =
-                        await picker.pickImage(source: ImageSource.gallery);
+                            await picker.pickImage(source: ImageSource.gallery);
                         controller.path.value = img1?.path;
                         Get.back();
                       },
@@ -67,7 +67,22 @@ void showBottom(BuildContext context) {
                     Text(
                       'Gallery',
                       style:
-                      TextStyle(color: black, fontWeight: FontWeight.bold),
+                          TextStyle(color: black, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+
+                        },
+                        icon: Icon(Icons.delete_outline,
+                            size: w * 0.09, color: black)),
+                    Text(
+                      'Profile photo remove',
+                      style:
+                          TextStyle(color: black, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),

@@ -9,6 +9,9 @@ ThemeData lightTheme = ThemeData(
   ),
   brightness: Brightness.light,
   iconTheme: IconThemeData(color: black),
+  textTheme: TextTheme(
+    labelLarge: TextStyle(color: black,fontSize: 18),
+  ),
 );
 
 ThemeData darkTheme = ThemeData(
@@ -18,4 +21,7 @@ ThemeData darkTheme = ThemeData(
   ),
   brightness: Brightness.dark,
   iconTheme: IconThemeData(color: white),
+  textTheme: TextTheme(
+    labelLarge: TextStyle(color: black,fontSize: 18),
+  ),
 );

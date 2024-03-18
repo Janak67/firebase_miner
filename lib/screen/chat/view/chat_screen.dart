@@ -202,6 +202,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     Expanded(
                       child: TextField(
                         controller: txtMsg,
+                        style: Theme.of(context).textTheme.labelLarge,
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
                           hintText: 'Message',

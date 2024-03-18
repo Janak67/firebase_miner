@@ -1,5 +1,6 @@
 import 'package:firebase_miner/screen/chat/view/chat_screen.dart';
 import 'package:firebase_miner/screen/dash/view/dash_screen.dart';
+import 'package:firebase_miner/screen/help/view/help_screen.dart';
 import 'package:firebase_miner/screen/intro/view/intro_screen.dart';
 import 'package:firebase_miner/screen/profile/view/profile_screen.dart';
 import 'package:firebase_miner/screen/signin/view/signin_screen.dart';
@@ -15,4 +16,5 @@ Map<String, WidgetBuilder> screen_routes = {
   'dash': (context) => const DashScreen(),
   'profile': (context) => const ProfileScreen(),
   'chat': (context) => const ChatScreen(),
+  'help': (context) => const HelpScreen(),
 };

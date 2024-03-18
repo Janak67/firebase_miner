@@ -148,7 +148,11 @@ class _SettingScreenState extends State<SettingScreen>
                     Get.offAllNamed('signIn');
                   },
                   child: buildListTile(Icons.logout, 'Logout')),
-              buildListTile(Icons.help_outline, 'Help'),
+              InkWell(
+                  onTap: () {
+                    Get.toNamed('help');
+                  },
+                  child: buildListTile(Icons.help_outline, 'Help')),
               buildListTile(Icons.group_outlined, 'Invite a friend')
             ],
           ),
