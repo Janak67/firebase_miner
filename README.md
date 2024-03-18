@@ -16,8 +16,6 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 
-
-
 Screenshots : 
 
 <p>
@@ -47,3 +45,7 @@ Screenshots :
   <img src = "https://github.com/Janak67/firebase_miner/assets/141834407/759df406-c935-41f5-a4df-51ee4ba30398" height="410" width="210">
 </p>
 
+
+Video :
+
+https://github.com/Janak67/firebase_miner/assets/141834407/0dc9ca0c-8fb6-48a0-934a-24bf968ea5fe
